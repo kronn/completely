@@ -8,13 +8,25 @@ ftp:
 ftp download:
 - --help
 - --override
+- --protocol
 - <file>
 
 ftp upload:
 - --help
 - --confirm
+- --protocol
 - <directory>
 
 ftp list:
 - --help
 - --short
+- --protocol
+
+ftp download*--protocol: &protocol
+- scp
+- ssh
+- sftp
+
+ftp upload*--protocol: *protocol
+ftp list*--protocol: *protocol
+

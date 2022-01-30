@@ -28,7 +28,7 @@ describe "generated script" do
     let(:compline) { 'ftp download' }
 
     it "shows all subcommand completions" do
-      expect(subject).to eq %w[--help --override another-dir dummy-dir ftp.yaml]
+      expect(subject).to eq %w[--help --override --protocol another-dir dummy-dir ftp.yaml]
     end
   end
 
@@ -36,15 +36,23 @@ describe "generated script" do
     let(:compline) { 'ftp upload' }
 
     it "shows all subcommand completions" do
-      expect(subject).to eq %w[--confirm --help another-dir dummy-dir]
+      expect(subject).to eq %w[--confirm --help --protocol another-dir dummy-dir]
     end
   end
 
-  context "when the command is prefix by a path" do
+  context "with a pattern that contains a wildcard" do
+    let(:compline) { 'ftp upload --protocol' }
+
+    it "shows all subcommand completions" do
+      expect(subject).to eq %w[scp sftp ssh]
+    end
+  end
+
+  context "when the command is prefixed by a path" do
     let(:compline) { '/anything/goes/ftp list' }
 
     it "shows all subcommand completions" do
-      expect(subject).to eq %w[--help --short]
+      expect(subject).to eq %w[--help --protocol --short]
     end
   end  
 end

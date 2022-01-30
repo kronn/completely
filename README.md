@@ -44,7 +44,7 @@ pattern:
 Each pattern contains an array of words (or functions) that will be suggested
 for the auto complete process.
 
-You can save a sample YAML file by running:
+You can create a sample YAML file by running:
 
 ```
 $ completely new
@@ -158,6 +158,36 @@ mygit:
 
 The `2> /dev/null` is used so that if the command is executed in a directory
 without a git repository, it will still behave as expected.
+
+### Suggesting arguments to flags using wildcards
+
+Using an asterisk (`*`) in your pattern name allows you to create more flexible
+suggestions. This is particularly useful for suggesting a list of allowed
+arguments to flags.
+
+For example, the following configuration will suggest `scp`, `ssh` and `sftp`
+whenever the input line starts with `ftp connect` and ends with `--protocol`
+(regardless of anything that exists in between).
+
+```yaml
+ftp:
+- connect
+
+ftp connect:
+- "-p"
+- "--protocol"
+- "--user"
+
+ftp connect*--protocol: &protocols
+- scp
+- ssh
+- sftp
+
+ftp connect*-p: *protocols
+```
+
+In addition, note the use of YAML anchors to suggest the same array of values
+for multiple patterns (both for `--protocol` and `-p`).
 
 
 ## Using the generated completion scripts

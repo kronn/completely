@@ -34,6 +34,10 @@ module Completely
       text.split(' ')[1..-1].join ' '
     end
 
+    def match_string
+      %Q['#{text_without_prefix.gsub("*", "'*'")}'*]
+    end
+
     def compgen
       @compgen ||= compgen!
     end
